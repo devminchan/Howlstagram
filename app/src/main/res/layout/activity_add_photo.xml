@@ -44,9 +44,10 @@
         android:layout_below="@+id/toolbar_layout">
 
         <ImageView
+            android:background="@color/colorPrimaryDark"
             android:id="@+id/addPhoto_image"
             android:layout_width="match_parent"
-            android:layout_height="256dp"
+            android:layout_height="240dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,32 +57,38 @@
             android:id="@+id/desc_input_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             app:layout_constraintBottom_toTopOf="@+id/upload_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addPhoto_image"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@id/addPhoto_image">
 
-            <MultiAutoCompleteTextView
+            <EditText
                 android:id="@+id/desc_editText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:maxLines="20" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="@null"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="false">
+                <requestFocus/>
+            </EditText>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/upload_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/upload_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/desc_input_layout"
+            app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
