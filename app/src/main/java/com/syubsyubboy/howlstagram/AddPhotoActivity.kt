@@ -6,17 +6,25 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.syubsyubboy.howlstagram.model.ContentDTO
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddPhotoActivity : AppCompatActivity() {
 
+    val TAG = this::class.java.name
+
     val PICK_IMAGE_FROM_ALBUM = 0
-    var storage: FirebaseStorage? = null
+
     var photoUri: Uri? = null
+
+    var storage: FirebaseStorage? = null
+    var auth: FirebaseAuth? = null
+    var firestore: FirebaseFirestore? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +35,8 @@ class AddPhotoActivity : AppCompatActivity() {
 
         //Init storage
         storage = FirebaseStorage.getInstance()
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         //Open the album
         var photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -45,8 +55,21 @@ class AddPhotoActivity : AppCompatActivity() {
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
         //File upload
-        storageRef?.putFile(photoUri!!)?.addOnSuccessListener {
-            Toast.makeText(this, R.string.upload_success, Toast.LENGTH_LONG).show()
+        storageRef?.putFile(photoUri!!)?.continueWithTask {
+            return@continueWithTask storageRef.downloadUrl
+        }?.addOnSuccessListener {
+            var contentDTO = ContentDTO().apply {
+                uid = auth?.currentUser?.uid
+                timestamp = System.currentTimeMillis()
+                userId = auth?.currentUser?.email
+                imageUrl = it.toString()
+                explain = desc_editText.text.toString()
+            }
+
+            firestore?.collection("images")?.document()?.set(contentDTO)
+            setResult(Activity.RESULT_OK)
+
+            finish()
         }
     }
 
