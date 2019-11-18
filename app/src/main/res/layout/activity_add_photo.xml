@@ -53,31 +53,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/desc_input_layout"
+        <EditText
+            android:id="@+id/desc_editText"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/upload_button"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:hint="@string/desc_hint"
+            android:inputType="textMultiLine"
+            android:scrollHorizontally="false"
+            app:layout_constraintTop_toBottomOf="@id/addPhoto_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addPhoto_image">
-
-            <EditText
-                android:id="@+id/desc_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:background="@null"
-                android:inputType="textMultiLine"
-                android:scrollHorizontally="false">
-                <requestFocus/>
-            </EditText>
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintStart_toStartOf="parent">
+        </EditText>
 
         <Button
             android:id="@+id/upload_button"
@@ -88,7 +81,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/desc_input_layout"
+            app:layout_constraintTop_toBottomOf="@id/desc_editText"
             app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

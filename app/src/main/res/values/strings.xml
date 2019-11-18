@@ -46,6 +46,8 @@
     <string name="upload_success">Upload success</string>
     <string name="upload_fail">Upload fail</string>
 
+    <string name="desc_hint">여기에 당신의 이야기를 적어주세요</string>
+
     <!-- Toolbar -->
     <string name="back">Back</string>
 
