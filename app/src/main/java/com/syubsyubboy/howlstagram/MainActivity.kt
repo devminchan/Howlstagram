@@ -1,5 +1,6 @@
 package com.syubsyubboy.howlstagram
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.action_add_photo -> {
+                startActivity(Intent(this, AddPhotoActivity::class.java))
                 return true
             }
             R.id.action_favorite_alarm -> {
