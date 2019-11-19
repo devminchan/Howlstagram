@@ -36,6 +36,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
                     startActivity(Intent(this, AddPhotoActivity::class.java))
+                } else {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        1
+                    )
                 }
 
                 return true
@@ -68,5 +74,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
             1
         )
+
+        bottom_navigation_view.selectedItemId = R.id.action_home
     }
 }
