@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.syubsyubboy.howlstagram.R
 import com.syubsyubboy.howlstagram.model.ContentDTO
-import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
@@ -69,11 +69,39 @@ class DetailViewFragment : Fragment() {
             val selectedDto = contentDTOs[position]
 
             with(holder.itemView) {
+                //Load userId(email)
                 detailviewitem_profile_textview.text = selectedDto.userId
+                //Load content image
                 Glide.with(this).load(selectedDto.imageUrl).into(detailviewitem_imageview_content)
+                //Load explain
                 detailviewitem_explain_textview.text = selectedDto.explain
+                //Load favorite count
                 detailviewitem_favoritecounter_textview.text = "Likes ${selectedDto.favoriteCount}"
+                //Load profile image
                 Glide.with(this).load(selectedDto.imageUrl).into(detailviewitem_profile_image)
+                //On favorite click
+                detailviewitem_favorite_imageview.setOnClickListener {
+                    favoriteEvent(position)
+                }
+            }
+        }
+
+        private fun favoriteEvent(position: Int) {
+            var tsDoc = firestore?.collection("images")?.document(contentUids[position])
+
+            firestore?.runTransaction { transaction ->
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)
+
+                if (contentDTO!!.favorites.containsKey(uid)) {
+                    //이미 눌렀을 경우
+                    contentDTO.favoriteCount -= 1
+                    contentDTO.favorites.remove(uid)
+                } else {
+                    //안 눌렀을 때
+                    contentDTO.favoriteCount += 1
+                    contentDTO.favorites[uid!!] = true
+                }
             }
         }
     }
